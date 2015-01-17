@@ -13,7 +13,7 @@ from pyrrd.graph import DEF, CDEF, VDEF
 from pyrrd.graph import LINE, AREA, GPRINT
 from pyrrd.graph import ColorAttributes, Graph
 
-step = 1
+step = 2
 
 min = 60
 hour = 60 * 60
@@ -318,6 +318,6 @@ if trafic:
         zabralo = (float(zabralo.microseconds) / 1000000)
         print str (zabralo) + ' sec.'
         zabralo=step-zabralo
-        if zabralo < step:
-            zabralo = step
+        # if zabralo < step:
+        #     zabralo = step
 
