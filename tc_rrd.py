@@ -62,6 +62,10 @@ def feedfile():
     arrwanf = []
 
 
+    if not os.path.isfile('rrd'):
+        subprocess.Popen(['mkdir rrd'], shell=True, stdout=subprocess.PIPE).communicate()[0]
+    subprocess.Popen(['rm rrd/*'], shell=True, stdout=subprocess.PIPE).communicate()[0]
+
     ####################################### nacitani TC FILTER LAN
 
     rawstr = r"""(?:flowid )(?P<flowid>[0-9:a-f]+)(?:[\t\n\r ]+)(?:match )(?P<hexip>[0-9a-fA-F/]+)"""
