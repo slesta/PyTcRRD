@@ -1,5 +1,5 @@
-lan = 'eth1'
-#lan = 'wlan0'
+#lan = 'eth1'
+lan = 'wlan0'
 wan = 'eth0'
 trafic = 'True'
 wwwpath = '/var/www/html/pytcrrd/'
