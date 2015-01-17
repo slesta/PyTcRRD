@@ -2,6 +2,10 @@
 __pycache__/
 *.py[cod]
 
+# custom
+.rrd
+.png
+
 # C extensions
 *.so
 
