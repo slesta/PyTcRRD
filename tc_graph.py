@@ -106,7 +106,7 @@ def Tcgraph():
 
         print hgraphfile_lg
 
-        gh = Graph(hgraphfile_lg, start=int(time.time()) - day / 24, end=endTime, vertical_label='bits/s', color=ca)
+        gh = Graph(hgraphfile_lg, start=int(time.time()) - min*20, end=endTime, vertical_label='bits/s', color=ca)
         gh.width = graphwidth
 
         gh.height = graphheight

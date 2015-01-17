@@ -13,7 +13,7 @@ from pyrrd.graph import DEF, CDEF, VDEF
 from pyrrd.graph import LINE, AREA, GPRINT
 from pyrrd.graph import ColorAttributes, Graph
 
-step = 10
+step = 1
 
 min = 60
 hour = 60 * 60
@@ -62,10 +62,9 @@ def feedfile():
     arrwanf = []
 
 
-    if not os.path.isfile('rrd'):
-        subprocess.Popen(['mkdir rrd'], shell=True, stdout=subprocess.PIPE).communicate()[0]
-    subprocess.Popen(['rm rrd/*'], shell=True, stdout=subprocess.PIPE).communicate()[0]
 
+
+    #time.sleep(20)
     ####################################### nacitani TC FILTER LAN
 
     rawstr = r"""(?:flowid )(?P<flowid>[0-9:a-f]+)(?:[\t\n\r ]+)(?:match )(?P<hexip>[0-9a-fA-F/]+)"""
@@ -182,8 +181,8 @@ def feedfile():
 
     for bitsvalue in arrlan:
         filename = 'rrd/lan%s.rrd' % str(bitsvalue['classid']).replace(':', '-')
-        print filename
-        print bitsvalue
+        #print filename
+        #print bitsvalue
         if not os.path.isfile(filename):
             # if ip == '10-253-1-3':
             # print str(bitsvalue)
@@ -199,20 +198,22 @@ def feedfile():
             dss.append(ds2)
             dss.append(ds3)
 
-            rra1 = RRA(cf='AVERAGE', xff=0.9, steps=1, rows=hour / (step * 1))
-            # 1 days-worth of one-minute samples --> 60/1 * 24
-            rra2 = RRA(cf='AVERAGE', xff=0.9, steps=12, rows=day / (step * 12))
-            # 7 days-worth of five-minute samples --> 60/5 * 24 * 7
-            rra3 = RRA(cf='AVERAGE', xff=0.9, steps=(5 * min) / step, rows=week / (step * (5 * min) / step))
-            # 30 days-worth of five-minute samples --> 60/60 * 24 * 30
-            rra4 = RRA(cf='AVERAGE', xff=0.9, steps=(10 * min) / step, rows=month / (step * (10 * min) / step))
-            rra5 = RRA(cf='AVERAGE', xff=0.9, steps=(hour * 6) / step, rows=year / (step * (hour * 6) / step))
-            #rras.extend([rra1, rra2, rra3, rra4, rra5])
-            rras.append(rra1)
-            rras.append(rra2)
-            rras.append(rra3)
-            rras.append(rra4)
-            rras.append(rra5)
+            rramin = RRA(cf='AVERAGE', xff=0.9, steps=1, rows=20*60)
+            # rra1 = RRA(cf='AVERAGE', xff=0.9, steps=1, rows=hour / (step * 1))
+            # # 1 days-worth of one-minute samples --> 60/1 * 24
+            # rra2 = RRA(cf='AVERAGE', xff=0.9, steps=12, rows=day / (step * 12))
+            # # 7 days-worth of five-minute samples --> 60/5 * 24 * 7
+            # rra3 = RRA(cf='AVERAGE', xff=0.9, steps=(5 * min) / step, rows=week / (step * (5 * min) / step))
+            # # 30 days-worth of five-minute samples --> 60/60 * 24 * 30
+            # rra4 = RRA(cf='AVERAGE', xff=0.9, steps=(10 * min) / step, rows=month / (step * (10 * min) / step))
+            # rra5 = RRA(cf='AVERAGE', xff=0.9, steps=(hour * 6) / step, rows=year / (step * (hour * 6) / step))
+            # #rras.extend([rra1, rra2, rra3, rra4, rra5])
+            # rras.append(rra1)
+            # rras.append(rra2)
+            # rras.append(rra3)
+            # rras.append(rra4)
+            # rras.append(rra5)
+            rras.append(rramin)
 
 
             #print step
@@ -241,8 +242,8 @@ def feedfile():
 
     for bitsvalue in arrwan:
         filename = 'rrd/wan%s.rrd' % str(bitsvalue['classid']).replace(':', '-')
-        print filename
-        print bitsvalue
+        #print filename
+        #print bitsvalue
         if not os.path.isfile(filename):
             # if ip == '10-253-1-3':
             # print str(bitsvalue)
@@ -258,20 +259,22 @@ def feedfile():
             dss.append(ds2)
             dss.append(ds3)
 
-            rra1 = RRA(cf='AVERAGE', xff=0.9, steps=1, rows=hour / (step * 1))
-            # 1 days-worth of one-minute samples --> 60/1 * 24
-            rra2 = RRA(cf='AVERAGE', xff=0.9, steps=12, rows=day / (step * 12))
-            # 7 days-worth of five-minute samples --> 60/5 * 24 * 7
-            rra3 = RRA(cf='AVERAGE', xff=0.9, steps=(5 * min) / step, rows=week / (step * (5 * min) / step))
-            # 30 days-worth of five-minute samples --> 60/60 * 24 * 30
-            rra4 = RRA(cf='AVERAGE', xff=0.9, steps=(10 * min) / step, rows=month / (step * (10 * min) / step))
-            rra5 = RRA(cf='AVERAGE', xff=0.9, steps=(hour * 6) / step, rows=year / (step * (hour * 6) / step))
-            #rras.extend([rra1, rra2, rra3, rra4, rra5])
-            rras.append(rra1)
-            rras.append(rra2)
-            rras.append(rra3)
-            rras.append(rra4)
-            rras.append(rra5)
+            rramin = RRA(cf='AVERAGE', xff=0.9, steps=1, rows=20*60)
+            # rra1 = RRA(cf='AVERAGE', xff=0.9, steps=1, rows=hour / (step * 1))
+            # # 1 days-worth of one-minute samples --> 60/1 * 24
+            # rra2 = RRA(cf='AVERAGE', xff=0.9, steps=12, rows=day / (step * 12))
+            # # 7 days-worth of five-minute samples --> 60/5 * 24 * 7
+            # rra3 = RRA(cf='AVERAGE', xff=0.9, steps=(5 * min) / step, rows=week / (step * (5 * min) / step))
+            # # 30 days-worth of five-minute samples --> 60/60 * 24 * 30
+            # rra4 = RRA(cf='AVERAGE', xff=0.9, steps=(10 * min) / step, rows=month / (step * (10 * min) / step))
+            # rra5 = RRA(cf='AVERAGE', xff=0.9, steps=(hour * 6) / step, rows=year / (step * (hour * 6) / step))
+            # #rras.extend([rra1, rra2, rra3, rra4, rra5])
+            # rras.append(rra1)
+            # rras.append(rra2)
+            # rras.append(rra3)
+            # rras.append(rra4)
+            # rras.append(rra5)
+            rras.append(rramin)
 
 
             #print step
@@ -304,12 +307,15 @@ if trafic:
     # print os.getpid()
 
     zabralo = step
+    if not os.path.isdir('rrd'):
+        subprocess.Popen(['mkdir rrd'], shell=True, stdout=subprocess.PIPE).communicate()[0]
+    subprocess.Popen(['rm rrd/*'], shell=True, stdout=subprocess.PIPE).communicate()[0]
     while True:
         time.sleep(zabralo)
         start = datetime.datetime.today()
         feedfile()
         zabralo = datetime.datetime.today() - start
-        zabralo = (step * 1000) - (float(zabralo.microseconds) / 1000)
-        zabralo = zabralo / 1000
-        print zabralo
+        zabralo = (float(zabralo.microseconds) / 1000000)
+        print str (zabralo) + ' sec.'
+        zabralo=step-zabralo
 
