@@ -318,4 +318,6 @@ if trafic:
         zabralo = (float(zabralo.microseconds) / 1000000)
         print str (zabralo) + ' sec.'
         zabralo=step-zabralo
+        if zabralo < step:
+            zabralo = step
 
