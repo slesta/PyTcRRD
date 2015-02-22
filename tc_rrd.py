@@ -103,12 +103,14 @@ def feedfile():
 
     ####################################### nacitani TC CLASS LAN
 
-    rawstr = r"""(?:class htb )(?P<classid>[0-9a-fA-F:]+)(?: parent )(?P<parentid>[0-9a-fA-F:]+)(?:(?:(?: prio )(?P<prio>[0-9]+))|(?:))(?: rate )(?P<rate>[0-9]+)(?P<rateunit>[MmKkbit]+)(?: ceil )(?P<ceil>[0-9]+)(?P<ceilunit>[MmKkbit]+)(?: burst )(?P<burst>[0-9]+)(?P<burstunit>[MmKkbit]+)(?: cburst )(?P<cburst>[0-9]+)(?P<cburstunit>[MmKkbit]+)(?:[\t \n\r]+)(?:Sent )(?P<sent>[0-9]+)(?: bytes )(?P<pckt>[0-9]+)(?:[ pkt(]+)(?:[a-zA-Z0-9, ]+)(?:[)])(?:[\n \t\r]+)(?:rate )(?P<rateps>[0-9]+)(?:[MmKkbit]+ )(?P<pps>[0-9]+)(?:[a-zA-Z0-9 ]+)(?:[\t \n\r])(?: lended: )(?P<lended>[0-9]+)(?: borrowed: )(?P<borrowed>[0-9]+)"""
+    # rawstr = r"""(?:class htb )(?P<classid>[0-9a-fA-F:]+)(?: parent )(?P<parentid>[0-9a-fA-F:]+)(?:(?:(?: prio )(?P<prio>[0-9]+))|(?:))(?: rate )(?P<rate>[0-9]+)(?P<rateunit>[MmKkbit]+)(?: ceil )(?P<ceil>[0-9]+)(?P<ceilunit>[MmKkbit]+)(?: burst )(?P<burst>[0-9]+)(?P<burstunit>[MmKkbit]+)(?: cburst )(?P<cburst>[0-9]+)(?P<cburstunit>[MmKkbit]+)(?:[\t \n\r]+)(?:Sent )(?P<sent>[0-9]+)(?: bytes )(?P<pckt>[0-9]+)(?:[ pkt(]+)(?:[a-zA-Z0-9, ]+)(?:[)])(?:[\n \t\r]+)(?:rate )(?P<rateps>[0-9]+)(?:[MmKkbit]+ )(?P<pps>[0-9]+)(?:[a-zA-Z0-9 ]+)(?:[\t \n\r])(?: lended: )(?P<lended>[0-9]+)(?: borrowed: )(?P<borrowed>[0-9]+)"""
+    rawstr = r"""(?:class )(?P<qdisc>[priohtbsfq]+)(?: )(?P<classid>[0-9a-fA-F:]+)(?: parent )(?P<parentid>[0-9a-fA-F:]+)(?:(?:(?: leaf )(?P<leaf>[0-9]+):)|(?:))(?:(?:(?: prio )(?P<prio>[0-9]+))|(?:))(?: rate )(?P<rate>[0-9]+)(?P<rateunit>[MmKkbit]+)(?: ceil )(?P<ceil>[0-9]+)(?P<ceilunit>[MmKkbit]+)(?: burst )(?P<burst>[0-9]+)(?P<burstunit>[MmKkbit]+)(?: cburst )(?P<cburst>[0-9]+)(?P<cburstunit>[MmKkbit]+)(?:[\t \n\r]+)(?:Sent )(?P<sent>[0-9]+)(?: bytes )(?P<pckt>[0-9]+)(?:[ pkt(]+)(?:[a-zA-Z0-9, ]+)(?:[)])(?:[\n \t\r]+)(?:rate )(?P<rateps>[0-9]+)(?:[MmKkbit]+ )(?P<pps>[0-9]+)(?:[a-zA-Z0-9 ]+)(?:[\t \n\r])(?: lended: )(?P<lended>[0-9]+)(?: borrowed: )(?P<borrowed>[0-9]+)"""
+
     classoutput = \
         subprocess.Popen([' tc -s class show dev ' + str(lan)], shell=True, stdout=subprocess.PIPE).communicate()[0]
     classoutput = classoutput[0:-1].split('\n\n')
     for line in classoutput:
-        # print line
+        print line
         match_obj = re.search(rawstr, line, re.MULTILINE)
         if match_obj != None:
             line = []
@@ -181,8 +183,8 @@ def feedfile():
 
     for bitsvalue in arrlan:
         filename = 'rrd/lan%s.rrd' % str(bitsvalue['classid']).replace(':', '-')
-        #print filename
-        #print bitsvalue
+        print filename
+        print bitsvalue
         if not os.path.isfile(filename):
             # if ip == '10-253-1-3':
             # print str(bitsvalue)
@@ -309,7 +311,8 @@ if trafic:
     zabralo = step
     if not os.path.isdir('rrd'):
         subprocess.Popen(['mkdir rrd'], shell=True, stdout=subprocess.PIPE).communicate()[0]
-    subprocess.Popen(['rm rrd/*'], shell=True, stdout=subprocess.PIPE).communicate()[0]
+    else:
+        subprocess.Popen(['rm rrd/*'], shell=True, stdout=subprocess.PIPE).communicate()[0]
     while True:
         time.sleep(zabralo)
         start = datetime.datetime.today()
